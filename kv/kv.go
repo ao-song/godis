@@ -5,23 +5,23 @@ import (
 )
 
 type Store struct {
-	kv  map[string]interface{}
-	mux sync.RWMutex
+	KV  map[string]interface{}
+	Mux sync.RWMutex
 }
 
 func (s *Store) Set(k string, v interface{}) {
-	s.mux.Lock()
-	s.kv[k] = v
-	s.mux.Unlock()
+	s.Mux.Lock()
+	s.KV[k] = v
+	s.Mux.Unlock()
 }
 
 func (s *Store) Get(k string) (interface{}, bool) {
-	v, found := s.kv[k]
+	v, found := s.KV[k]
 	return v, found
 }
 
 func (s *Store) Del(k string) {
-	s.mux.Lock()
-	delete(s.kv, k)
-	s.mux.Unlock()
+	s.Mux.Lock()
+	delete(s.KV, k)
+	s.Mux.Unlock()
 }

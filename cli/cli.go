@@ -30,7 +30,7 @@ func runCmd(cmdStr string, store *kv.Store) {
     switch cmdStrList[0] {
     case "get":
         if len(cmdStrList) < 2 {
-            fmt.Print("Command incomplete!\n")
+            fmt.Print("Command incorrect!\n")
             return
         }
         v, found := store.Get(cmdStrList[1])
@@ -42,14 +42,14 @@ func runCmd(cmdStr string, store *kv.Store) {
         }
     case "set":
         if len(cmdStrList) < 3 {
-            fmt.Print("Command incomplete!\n")
+            fmt.Print("Command incorrect!\n")
             return
         }
         store.Set(cmdStrList[1], cmdStrList[2])
         fmt.Print("ok\n")
     case "del":
         if len(cmdStrList) < 2 {
-            fmt.Print("Command incomplete!\n")
+            fmt.Print("Command incorrect!\n")
             return
         }
         store.Del(cmdStrList[1])

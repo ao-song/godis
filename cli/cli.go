@@ -3,7 +3,7 @@ package main
 import (
     "bufio"
     "fmt"
-    "godis/lib"
+    "godis/kv"
     "os"
     "strings"
 )

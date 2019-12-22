@@ -8,13 +8,8 @@ import (
 )
 
 type request struct {
-    action string
-    value  interface{}
-}
-
-type keyValue struct {
-    key   string
-    value string
+    Action string
+    Value  interface{}
 }
 
 func main() {
@@ -41,6 +36,7 @@ func handleConnection(conn net.Conn, s *kv.Store) {
     defer conn.close()
 
     decoder := json.NewDecoder(conn)
+    encoder := json.NewEncoder(conn)
 
     for {
         var req request
@@ -55,13 +51,24 @@ func handleConnection(conn net.Conn, s *kv.Store) {
             }
         }
         
-        switch req.action.(string) {
-        case "set":           
-            v := req.value
-
+        switch req.Action.(string) {
+        case "set":
+            for k, v := range req.Value {
+                s.Set(k, v)
+            }
+            encoder.Encode("ok")
         case "get":
+            data, found := store.Get(req.Value)
+            if found {
+                encoder.Encode(fmt.Sprintf(`{"value": %s}`, data))
+            } else {
+                encoder.Encode("Not found")
+            }
         case "del":
+            s.Del(req.Value)
+            encoder.Encode("ok")
         default:
+            encoder.Encode("Incorrect command")
         }
     }    
 }

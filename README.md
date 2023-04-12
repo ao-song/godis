@@ -1,3 +1,3 @@
 # godis
 
-A kv store
+A kv store wich cli, super toy! ;)
